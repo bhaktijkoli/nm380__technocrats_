@@ -9,7 +9,6 @@ import MainControls from './MainControls';
 import SideControls from './SideControls';
 import RNFS from 'react-native-fs';
 import kml from './../../utils/kml';
-import permission from './../../utils/permission';
 import directory from './../../utils/directory';
 
 const styles = StyleSheet.create({
@@ -84,17 +83,8 @@ class Record extends Component {
             locations: [],
         };
     }
-    async componentDidMount() {
-        try {
-            await permission.Location();
-            await permission.readStorage();
-            await permission.writeStorage();
-            await permission.camera();
-            await permission.audio();
-        } catch (error) {
-            console.error(error)
-            alert("Permissions not granted");
-        }
+    componentDidMount() {
+        this.mounted = true;
     }
     componentWillUnmount() {
         this.mounted = false;
