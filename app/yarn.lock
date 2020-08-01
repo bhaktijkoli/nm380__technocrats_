@@ -6040,6 +6040,11 @@ rimraf@~2.2.6:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
 
+rn-media-meta@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/rn-media-meta/-/rn-media-meta-0.0.11.tgz#dc8136b301428728938efdfa6df253b98b804bb1"
+  integrity sha512-ixao0vdSH3g2kx1qbR20msl2P1DffMkGIPX+sQ+P1unk1nxNdWxTvnHlXYtgAIWyEdQP5WzF6N9ZyruFV4Xhhw==
+
 rn-sliding-up-panel@^2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/rn-sliding-up-panel/-/rn-sliding-up-panel-2.4.3.tgz#50ab32f6ab4c4d665562b9244e01a057103df3da"

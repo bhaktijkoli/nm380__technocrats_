@@ -8,7 +8,6 @@ import moment from 'moment';
 import MainControls from './MainControls';
 import SideControls from './SideControls';
 import RNFS from 'react-native-fs';
-import kml from './../../utils/kml';
 import directory from './../../utils/directory';
 
 const styles = StyleSheet.create({
@@ -158,7 +157,7 @@ class Record extends Component {
                     let file = result.uri.replace('file://', '');
                     let dest = directory.path("GE" + moment().format('YYMMDDHHmmss') + '.mp4');
                     RNFS.copyFile(file, dest)
-                    RNFS.writeFile(dest + ".kml", kml.kmlDocument(this.state.locations))
+                    RNFS.writeFile(dest + ".json", JSON.stringify(this.state.locations))
                     Alert.alert('Video recorded', JSON.stringify(result));
                 }
                 setTimeout(() => {
@@ -220,6 +219,7 @@ class Record extends Component {
                             lng: info.coords.longitude,
                             speed: info.coords.speed,
                             heading: info.coords.heading,
+                            elapsed: moment().diff(this.state.startTime, 'seconds') * 1000,
                         })
                         this.setState({ locations });
                     },

@@ -1,15 +1,43 @@
 module.exports = {
-    formatElapsed: (elapsed) => {
-        if (elapsed <= 0) return "00:00";
-        let minutes = 0;
-        while (elapsed > 59) {
-            minutes++;
-            elapsed -= 60;
+    formatElapsed: (seconds) => {
+
+        if (seconds < 0) return "00:00";
+
+        var minutes = Math.floor(seconds / 60);
+        var hours = "";
+        if (minutes > 59) {
+            hours = Math.floor(minutes / 60);
+            hours = (hours >= 10) ? hours : "0" + hours;
+            minutes = minutes - (hours * 60);
+            minutes = (minutes >= 10) ? minutes : "0" + minutes;
         }
 
-        if (minutes <= 9) minutes = `0${minutes}`;
-        if (elapsed <= 9) elapsed = `0${elapsed}`;
+        seconds = Math.floor(seconds % 60);
+        seconds = (seconds >= 10) ? seconds : "0" + seconds;
+        if (hours != "") {
+            return hours + ":" + minutes + ":" + seconds;
+        }
+        return minutes + ":" + seconds;
 
-        return `${minutes}:${elapsed}`;
+    },
+    formatDuration: (millisec) => {
+
+        var seconds = (millisec / 1000).toFixed(0);
+        var minutes = Math.floor(seconds / 60);
+        var hours = "";
+        if (minutes > 59) {
+            hours = Math.floor(minutes / 60);
+            hours = (hours >= 10) ? hours : "0" + hours;
+            minutes = minutes - (hours * 60);
+            minutes = (minutes >= 10) ? minutes : "0" + minutes;
+        }
+
+        seconds = Math.floor(seconds % 60);
+        seconds = (seconds >= 10) ? seconds : "0" + seconds;
+        if (hours != "") {
+            return hours + ":" + minutes + ":" + seconds;
+        }
+        return minutes + ":" + seconds;
+
     },
 };
