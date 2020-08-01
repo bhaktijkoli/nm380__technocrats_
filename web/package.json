@@ -1,0 +1,50 @@
+{
+  "name": "nm380-technocrats-web",
+  "displayName": "_Technocrats_ - Online",
+  "version": "0.0.1",
+  "author": {
+    "email": "bhpndrsingh306@gmail.com",
+    "name": "localhoax",
+    "url": "https://github.com/localhoax"
+  },
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "nodemon app.js",
+    "build": "next build",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "bcrypt": "^5.0.0",
+    "clsx": "^1.1.1",
+    "compression": "^1.7.4",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^3.23.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.21",
+    "morgan": "^1.10.0",
+    "next": "^9.4.4",
+    "next-auth": "^2.2.0",
+    "node-sass-middleware": "^0.11.0",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "passport-local": "^1.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "socket.io": "^2.3.0",
+    "uid-safe": "^2.1.5"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
+  }
+}
