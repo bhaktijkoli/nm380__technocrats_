@@ -1,7 +1,7 @@
 module.exports = {
     formatElapsed: (seconds) => {
 
-        if (seconds < 0) return "00:00";
+        if (seconds <= 0) return "00:00";
 
         var minutes = Math.floor(seconds / 60);
         var hours = "";

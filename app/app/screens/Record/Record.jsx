@@ -83,10 +83,8 @@ class Record extends Component {
         };
     }
     componentDidMount() {
-        this.mounted = true;
     }
     componentWillUnmount() {
-        this.mounted = false;
         this.stopVideo();
     }
     onCameraStatusChange = (s) => {
