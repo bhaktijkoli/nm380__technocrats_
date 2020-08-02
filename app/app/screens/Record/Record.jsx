@@ -152,12 +152,17 @@ class Record extends Component {
                     console.warn('Video record fail', error.message, error);
                 }
                 if (result) {
+                    let name = "GE" + moment().format('YYMMDDHHmmss') + '.mp4';
                     let file = result.uri.replace('file://', '');
-                    let dest = directory.path("GE" + moment().format('YYMMDDHHmmss') + '.mp4');
+                    let dest = directory.path(name);
                     RNFS.copyFile(file, dest);
                     RNFS.writeFile(dest + ".json", JSON.stringify(this.state.locations));
                     RNFS.unlink(file);
-                    Alert.alert('Video recorded', JSON.stringify(result));
+                    Alert.alert('Video recorded', `Your video has been recored and saved as ${name}`,
+                        [
+                            { text: "Ok", onPress: () => this.props.navigation.navigate('Home') }
+                        ]
+                    );
                 }
                 setTimeout(() => {
                     this.setState({ recording: false });

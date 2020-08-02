@@ -8,17 +8,26 @@ import Main from './app/screens/Main/Main';
 import Record from './app/screens/Record/Record';
 import LocationRecordTest from './app/tests/LocationRecordTest/LocationRecordTest';
 
+import { StoreProvider } from './app/store/store'
+
 const Stack = createStackNavigator();
+
+const store = {
+    user: null,
+    files: [],
+}
 
 export default function App() {
     return (
-        <NavigationContainer>
-            <Stack.Navigator headerMode="none" initialRouteName="Splash">
-                <Stack.Screen name="Splash" component={Splash} />
-                <Stack.Screen name="Main" component={Main} />
-                <Stack.Screen name="Record" component={Record} />
-                <Stack.Screen name="LocationRecordTest" component={LocationRecordTest} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <StoreProvider value={store}>
+            <NavigationContainer>
+                <Stack.Navigator headerMode="none" initialRouteName="Splash">
+                    <Stack.Screen name="Splash" component={Splash} />
+                    <Stack.Screen name="Main" component={Main} />
+                    <Stack.Screen name="Record" component={Record} />
+                    <Stack.Screen name="LocationRecordTest" component={LocationRecordTest} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </StoreProvider>
     );
 }
