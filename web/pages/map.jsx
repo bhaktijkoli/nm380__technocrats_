@@ -3,7 +3,7 @@ import Layout from '../layout';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import dynamic from 'next/dynamic';
 
-const position = [51.505, -0.09];
+const position = [73.1548406, 19.2401577];
 
 const DynamicComponentWithNoSSR = dynamic (
     () =>         
