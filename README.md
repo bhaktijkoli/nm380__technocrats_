@@ -15,6 +15,11 @@
   <br>
   <a href="https://github.com/singhmanvi252/">Manvi Singh</a>
   <br>
+  <b> Mentors: </b>
+  <a href="https://github.com/gyr0tron/">Simmar Khalsi</a>
+  <br>
+  <a href="https://github.com/way2mandar/">Mandar Ganjapurkar</a>
+  <br>  
 </p>
   
 ## 📦 Technologies Used
