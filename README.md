@@ -1,6 +1,6 @@
 <h1 align="center">SIH 2020</h1>
 
-## 👥 Team _TECHNOCRATS_
+<h1 align="left">Team: _TECHNOCRATS_</h1>
 
 <p>
   <a href="https://github.com/bhaktijkoli/">Bhaktij Koli</a>
