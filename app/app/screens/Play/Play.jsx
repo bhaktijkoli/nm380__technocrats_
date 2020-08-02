@@ -271,7 +271,7 @@ class Play extends Component {
                             )}
                             <View style={styles.divider} />
                             <View style={styles.mapContainer}>
-                                <MapView locations={this.state.locations} />
+                                <MapView locations={this.state.locations} currentTime={this.state.currentTime} />
                             </View>
                         </Animated.View>
                     </React.Fragment>

@@ -12,7 +12,12 @@ export default (props) => {
 
     }
 
+    const currentTime = props.currentTime * 1000;
+    let currentLocation = null
     const coordinates = props.locations.map(l => {
+        if (currentLocation === null && l.elapsed >= currentTime) {
+            currentLocation = l;
+        }
         return {
             latitude: l.lat, longitude: l.lng
         }
@@ -35,6 +40,20 @@ export default (props) => {
             }}
             zoomEnabled={true}
         >
+
+            {/* {Current Position Marker} */}
+            {
+                currentLocation === null ? null :
+                    <Marker
+                        title="Current Position"
+                        pinColor="red"
+                        coordinate={{
+                            latitude: currentLocation.lat,
+                            longitude: currentLocation.lng
+                        }}
+                    />
+            }
+
             {/* {Start Marker} */}
             <Marker
                 title="Start"
