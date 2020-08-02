@@ -9,7 +9,11 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const connectDatabase = require('./database');
+const {getConnection, connect} = require('./database')();
+const User = require('./models/user');
+const Account = require('./models/account');
+const Session = require('./models/session');
+const VerificationRequest = require('./models/verification-request');
 
 const {port, isDev, sessionSecret, sessionMaxAge} = config;
 
@@ -25,7 +29,7 @@ nextApp
         app.use(compression());
         app.use(cookieParser());
 
-        connectDatabase()
+        connect()
             .then((connection) => {
                 app.use(
                     session({

@@ -3,6 +3,7 @@ import App from 'next/app';
 import {ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../styles/theme';
+import Head from 'next/head';
 
 class MyApp extends App {
     static async getInitialProps({Component, ctx}) {
@@ -39,6 +40,9 @@ class MyApp extends App {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline />
+                <Head>
+                    <title>_Technocrats_ - Online Viewer</title>
+                </Head>
                 <Component {...props} />
             </ThemeProvider>
         );

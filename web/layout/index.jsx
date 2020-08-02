@@ -101,6 +101,7 @@ function Layout({children, ...props}) {
     const classes = useStyles();
     const theme = useTheme();
     const [session, loading] = useSession();
+    console.log(session, loading);
     const [open, setOpen] = useState(false);
     const menuId = 'profile-menu';
     const handleProfileMenuOpen = (event) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Document, {Html, Head, Main, NextScript} from 'next/document';
+import {Provider as NextAuthProvider} from 'next-auth/client';
 import {ServerStyleSheets} from '@material-ui/core/styles';
 
 class MyDocument extends Document {
@@ -23,13 +24,13 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     <meta name="theme-color" content="#ff33dd" />
-                    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
                     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-                    <title>_Technocrats_ - Online Viewer</title>
                     {/* TODO: Update head fields: description, style */}
                 </Head>
                 <body>
-                    <Main />
+                    <NextAuthProvider>
+                        <Main />
+                    </NextAuthProvider>
                     <NextScript />
                 </body>
             </Html>

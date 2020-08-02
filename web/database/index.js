@@ -7,14 +7,22 @@ const getUri = (c) => {
 };
 
 module.exports = () => {
-    return new Promise((resolve, reject) => {
-        mongoose.Promise = global.Promise;
-        mongoose.set('debug', config.isDev);
-        mongoose.connect(config.dbUri, config.dbOptions);
-        mongoose.connection.on('error', reject);
-        mongoose.connection.on('open', () => {
-            console.log('Database connected on:', getUri(mongoose.connection));
-            resolve(mongoose.connection);
+    let connection = null;
+    getConnection = () => {
+        return connection;
+    };
+    function connect() {
+        return new Promise((resolve, reject) => {
+            mongoose.Promise = global.Promise;
+            mongoose.set('debug', config.isDev);
+            mongoose.connect(config.dbUri, config.dbOptions);
+            mongoose.connection.on('error', reject);
+            mongoose.connection.on('open', () => {
+                console.log('Database connected on:', getUri(mongoose.connection));
+                connection = mongoose.connection;
+                resolve(connection);
+            });
         });
-    });
+    }
+    return {getConnection, connect};
 };
