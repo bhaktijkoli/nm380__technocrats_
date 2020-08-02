@@ -75,11 +75,25 @@ export default (props) => {
             />
 
             {/* Lines */}
-            <Polyline
-                coordinates={coordinates}
-                strokeColor="#000"
-                strokeWidth={6}
-            />
+            {
+                locations.map((location, key) => {
+                    if (key === locations.length - 1) return null;
+                    return (
+                        <Polyline
+                            coordinates={[
+                                { latitude: location.lat, longitude: location.lng },
+                                { latitude: locations[key + 1].lat, longitude: locations[key + 1].lng },
+                            ]}
+                            strokeColor="#000"
+                            strokeWidth={6}
+                            tappable={true}
+                            onPress={e => {
+                                props.onCurrentLocationChange(location.elapsed / 1000);
+                            }}
+                        />
+                    )
+                })
+            }
 
         </MapView>
     )

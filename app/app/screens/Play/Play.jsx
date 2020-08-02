@@ -182,6 +182,11 @@ class Play extends Component {
             this.setState({ seeking: false });
         });
     };
+    onCurrentLocationChange = (time) => {
+        this.setState({ seeking: false, currentTime: time }, () => {
+            this.setState({ seeking: false })
+        });
+    }
     render() {
         const top = DRAWER_DEFAULT_TOP;
         const bottom = DRAWER_DEFAULT_BOTTOM;
@@ -271,7 +276,7 @@ class Play extends Component {
                             )}
                             <View style={styles.divider} />
                             <View style={styles.mapContainer}>
-                                <MapView locations={this.state.locations} currentTime={this.state.currentTime} />
+                                <MapView locations={this.state.locations} currentTime={this.state.currentTime} onCurrentLocationChange={this.onCurrentLocationChange} />
                             </View>
                         </Animated.View>
                     </React.Fragment>
