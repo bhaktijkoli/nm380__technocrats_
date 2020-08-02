@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {View, StyleSheet, Button, Text, Dimensions, PanResponder, Animated} from 'react-native';
 import RNVideo from 'react-native-video';
 import SlidingPanel from 'rn-sliding-up-panel';
-import Controls from './Controls';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Video from './Video';
+import Slider from '@react-native-community/slider';
+import Controls from './Controls';
 import TopControls from './TopControls';
+import {formatElapsed} from '../../utils/formatting';
 
 const {height, width} = Dimensions.get('window');
 const CONTROLS_HEIGHT = 140; // Includes the sliding bar
@@ -14,9 +15,24 @@ const SLIDE_TRIGGER_HEIGHT = 12; // Invisible padding to drag
 const DRAWER_DEFAULT_BOTTOM = 16 + SLIDE_TRIGGER_HEIGHT; // Some space for it to be draggable
 
 const styles = StyleSheet.create({
-    playerContainer: {
+    container: {
         flex: 1,
         backgroundColor: '#ffffff00',
+    },
+    playerContainer: {
+        overflow: 'hidden',
+        backgroundColor: '#000',
+        flex: 1,
+        alignSelf: 'stretch',
+        justifyContent: 'space-between',
+    },
+    playerVideo: {
+        overflow: 'hidden',
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
     },
     videoContainer: {
         flex: 1,
@@ -73,20 +89,50 @@ const styles = StyleSheet.create({
     },
 });
 
+function Seeker({seeking = false, start = 0, end = 0, value = 0, onSeek, onSeekStart, onSeekEnd}) {
+    const [step, setStep] = React.useState(0);
+    useEffect(() => {
+        setStep((end - start) / 100);
+    }, [start, end]);
+    return (
+        <Slider
+            minimumValue={start}
+            maximumValue={end}
+            value={value}
+            onValueChange={onSeek}
+            onSlidingStart={onSeekStart}
+            onSlidingComplete={onSeekEnd}
+            step={step}
+            style={styles.seekSlider}
+        />
+    );
+}
+
 class Play extends Component {
     slidePanel = null;
     _draggedPanelValue = new Animated.Value(CONTROLS_HEIGHT + SLIDE_TRIGGER_HEIGHT);
     videoHeight = Animated.subtract(height - 16, this._draggedPanelValue);
     player = null;
+
     constructor(props) {
         super(props);
         this.state = {
-            videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-weeds-waving-in-the-breeze-1178-large.mp4',
             paused: false,
             repeat: true,
             muted: false,
             volume: 1,
+            rate: 1,
             videoHeight: height,
+            loadControls: false,
+            seeking: false,
+            currentTime: 0,
+            seekTime: 0,
+            duration: 0,
+        };
+        this.videoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-weeds-waving-in-the-breeze-1178-large.mp4';
+        this.options = {
+            playWhenInactive: false,
+            playInBackground: false,
         };
     }
     onExport = () => {};
@@ -94,7 +140,6 @@ class Play extends Component {
     onOpenInfo = () => {};
     onDelete = () => {};
     onToggleDarkMode = () => {};
-    onSeek = () => {};
     onSeekPlus = () => {};
     onSeekMinus = () => {};
     onPlayPause = () => {
@@ -102,19 +147,66 @@ class Play extends Component {
     };
     onLockControls = () => {};
     onToggleOptions = () => {};
+    onLoadStart = () => {
+        if (!this.state.loading)
+            this.setState({
+                loading: true,
+            });
+    };
+    onLoad = (data = {}) => {
+        this.setState({
+            loadControls: true,
+            loading: false,
+            duration: data.duration,
+        });
+    };
+    onProgress = (data = {}) => {
+        this.setState({
+            currentTime: data.currentTime,
+        });
+    };
+    onSeekStart = () => {
+        this.setState({seeking: true, paused: true});
+    };
+    onSeekEnd = (v) => {
+        this.player.seek(v, 250);
+    };
+    seekTo = (v) => {};
+    onSeekComplete = (data = {}) => {
+        this.setState({paused: false, currentTime: data.currentTime}, () => {
+            this.setState({seeking: false});
+        });
+    };
     render() {
         const top = DRAWER_DEFAULT_TOP;
         const bottom = DRAWER_DEFAULT_BOTTOM;
+        const elapsedTime = formatElapsed(this.state.currentTime);
+        const remainingTime = formatElapsed(this.state.duration - this.state.currentTime);
+
         return (
-            <View style={styles.playerContainer}>
+            <View style={styles.container}>
                 <Animated.View style={[styles.videoContainer, {height: this.videoHeight}]}>
-                    <Video
-                        handleRef={(ref) => (this.player = ref)}
-                        repeat={this.state.repeat}
-                        muted={this.state.muted}
-                        paused={this.state.paused}
-                        source={{uri: this.state.videoUrl}}
-                    />
+                    <View style={styles.playerContainer}>
+                        <RNVideo
+                            ref={(ref) => (this.player = ref)}
+                            {...this.options}
+                            style={styles.playerVideo}
+                            volume={this.state.volume}
+                            paused={this.state.paused}
+                            rate={this.state.rate}
+                            resizeMode={'contain'}
+                            source={{
+                                uri: this.videoUrl,
+                            }}
+                            resizeMode={'contain'}
+                            repeat={this.state.repeat}
+                            onLoadStart={this.onLoadStart}
+                            onLoad={this.onLoad}
+                            onProgress={this.onProgress}
+                            minLoadRetryCount={5}
+                            onSeek={this.onSeekComplete}
+                        />
+                    </View>
                     <View style={styles.topOptions}>
                         <TopControls
                             onExport={this.onExport}
@@ -135,7 +227,7 @@ class Play extends Component {
                     snappingPoints={[DRAWER_DEFAULT_BOTTOM, CONTROLS_HEIGHT]}
                     animatedValue={this._draggedPanelValue}
                     height={height + CONTROLS_HEIGHT + SLIDE_TRIGGER_HEIGHT}
-                    friction={1}
+                    friction={0.75}
                     showBackdrop={false}
                     onMomentumDragEnd={this.adjustVideoHeight}>
                     <React.Fragment>
@@ -145,15 +237,33 @@ class Play extends Component {
                                 <View style={styles.dragBox} />
                             </View>
                             {/* TODO: External Controls */}
-                            <Controls
-                                style={styles.controlsContainer}
-                                paused={this.state.paused}
-                                onPlayPause={this.onPlayPause}
-                                onLockControls={this.onLockControls}
-                                onSeekMinus={this.onSeekMinus}
-                                onSeek={this.onSeek}
-                                onSeekPlus={this.onSeekPlus}
-                            />
+                            {this.state.loadControls && (
+                                <Controls
+                                    player={this.player}
+                                    style={styles.controlsContainer}
+                                    paused={this.state.paused}
+                                    onPlayPause={this.onPlayPause}
+                                    onLockControls={this.onLockControls}
+                                    onSeekMinus={this.onSeekMinus}
+                                    onSeek={this.onSeek}
+                                    onSeekPlus={this.onSeekPlus}
+                                    elapsed={elapsedTime}
+                                    remaining={remainingTime}
+                                    seekTo={this.seekTo}
+                                    seekStart={this.onSeekStart}
+                                    seekEnd={this.onSeekEnd}
+                                    seeker={
+                                        <Seeker
+                                            start={0}
+                                            end={this.state.duration}
+                                            value={this.state.currentTime}
+                                            onSeek={this.seekTo}
+                                            onSeekEnd={this.onSeekEnd}
+                                            onSeekStart={this.onSeekStart}
+                                        />
+                                    }
+                                />
+                            )}
                             <View style={styles.divider} />
                             <View style={styles.mapContainer}></View>
                         </Animated.View>

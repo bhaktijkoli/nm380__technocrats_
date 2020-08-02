@@ -4,6 +4,7 @@ import {Grid, Row, Col} from 'react-native-easy-grid';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CONTROL_HEIGHT = 100;
+const {width} = Dimensions.get('window');
 
 function Controls({
     locked = false,
@@ -12,9 +13,17 @@ function Controls({
     style,
     onPlayPause,
     onLockControls,
+    elapsed = '0:00',
+    remaining = '0:00',
+    steps = 0,
     onSeekMinus,
     onSeek,
     onSeekPlus,
+    seekTo,
+    player,
+    seekStart,
+    seekEnd,
+    seeker,
 }) {
     const containerStyle = {...style};
     if (height !== null) {
@@ -28,6 +37,13 @@ function Controls({
         },
         seek: {
             height: height ? height - 110 : 30,
+            alignItems: 'center',
+        },
+        timerText: {
+            color: '#fff',
+        },
+        seekSlider: {
+            flex: 1,
         },
         controlItem: {
             backgroundColor: '#5522ee',
@@ -53,17 +69,25 @@ function Controls({
         },
     });
     const onRewind = () => {};
-    const onFastForward = () => { };
+    const onFastForward = () => {};
     const openOptionsMenu = () => {
         // TODO: Options component
-    }
+    };
     return (
         <View style={containerStyle}>
             <Grid>
-                <Row style={styles.seek}>{/* <Text>Hehlo</Text> */}</Row>
+                <Row style={styles.seek}>
+                    <Col size={1}>
+                        <Text style={[styles.timerText, {textAlign: 'left'}]}>{elapsed}</Text>
+                    </Col>
+                    <Col size={8}>{seeker}</Col>
+                    <Col size={1}>
+                        <Text style={[styles.timerText, {textAlign: 'right'}]}>{remaining}</Text>
+                    </Col>
+                </Row>
                 <Row style={styles.controls}>
                     <Col>
-                        <TouchableOpacity onPress={onPlayPause}>
+                        <TouchableOpacity onPress={onLockControls}>
                             <View style={styles.controlItem}>
                                 <Icon name={locked ? 'lock' : 'lock-open'} style={styles.controlIcon} />
                             </View>
