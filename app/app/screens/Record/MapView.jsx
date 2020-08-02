@@ -19,6 +19,7 @@ export default (props) => {
                 latitude: location.lat,
                 longitude: location.lng,
             },
+            heading: location.heading,
         })
     }
     return (
