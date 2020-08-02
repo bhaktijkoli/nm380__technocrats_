@@ -3,6 +3,8 @@
 <h1 align="left">Team: _TECHNOCRATS_ (NM380)</h1>
 
 <p>
+  <b> Team Members: </b>
+  <br>
   <a href="https://github.com/bhaktijkoli/">Bhaktij Koli</a>
   <br>
   <a href="https://github.com/frozen4code/">Bhupinder Singh</a>
