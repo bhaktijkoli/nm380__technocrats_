@@ -51,8 +51,8 @@ class Home extends Component {
                 <Toolbar />
                 <FlatList
                     data={this.state.files}
-                    renderItem={({ item }) => (
-                        <VideoItem item={item} />
+                    renderItem={({ item }, key) => (
+                        <VideoItem item={item} navigation={this.props.navigation} key={key} />
                     )}
                     keyExtractor={item => item.id}
                 />
