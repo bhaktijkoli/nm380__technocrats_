@@ -211,6 +211,7 @@ class Record extends Component {
                 Geolocation.getCurrentPosition(
                     info => {
                         let { locations } = this.state
+                        console.log(info);
                         locations.push({
                             alt: info.coords.altitude,
                             lat: info.coords.latitude,

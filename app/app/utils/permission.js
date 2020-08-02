@@ -3,7 +3,7 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 module.exports.Location = () => {
     if (Platform.OS === 'android') {
-        return checkPermission(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION);
+        return checkPermission(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
 
     } else if (Platform.OS === 'ios') {
         return checkPermission(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
@@ -27,7 +27,7 @@ module.exports.readStorage = () => {
 
 module.exports.camera = () => {
     if (Platform.OS === 'android') {
-        return checkPermission(PERMISSIONS.ANDROID.RECORD_AUDIO)
+        return checkPermission(PERMISSIONS.ANDROID.CAMERA)
     } else if (Platform.OS === 'ios') {
         return checkPermission(PERMISSIONS.IOS.CAMERA)
     }
@@ -35,7 +35,7 @@ module.exports.camera = () => {
 
 module.exports.audio = () => {
     if (Platform.OS === 'android') {
-        return checkPermission(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
+        return checkPermission(PERMISSIONS.ANDROID.RECORD_AUDIO)
 
     } else if (Platform.OS === 'ios') {
     }
