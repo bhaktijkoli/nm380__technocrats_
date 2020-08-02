@@ -184,15 +184,22 @@ class Play extends Component {
     };
     onCurrentLocationChange = (time) => {
         this.player.seek(time);
-        // this.setState({ seeking: true, paused: true, currentTime: time }, () => {
-        //     // this.setState({ seeking: false, paused: false })
-        // });
     }
     render() {
         const top = DRAWER_DEFAULT_TOP;
         const bottom = DRAWER_DEFAULT_BOTTOM;
         const elapsedTime = formatElapsed(this.state.currentTime);
         const remainingTime = formatElapsed(this.state.duration - this.state.currentTime);
+
+        const currentTime = this.state.currentTime * 1000;
+        let currentLocation = null;
+        let speed = 0;
+        this.state.locations.forEach(l => {
+            if (currentLocation === null && l.elapsed >= currentTime) {
+                currentLocation = l;
+                speed = l.speed;
+            }
+        })
 
         return (
             <View style={styles.container}>
@@ -225,7 +232,7 @@ class Play extends Component {
                             onOpenInfo={this.onOpenInfo}
                             onDelete={this.onDelete}
                             onToggleDarkMode={this.onToggleDarkMode}
-                            speed={'2 km/h'}
+                            speed={`${speed.toFixed(2)} km/h`}
                         />
                     </View>
                     {/* <VideoPlayer source={{uri: this.state.videoUrl}} navigator={this.props.navigator} /> */}
@@ -277,7 +284,11 @@ class Play extends Component {
                             )}
                             <View style={styles.divider} />
                             <View style={styles.mapContainer}>
-                                <MapView locations={this.state.locations} currentTime={this.state.currentTime} onCurrentLocationChange={this.onCurrentLocationChange} />
+                                <MapView
+                                    locations={this.state.locations}
+                                    currentTime={this.state.currentTime}
+                                    currentLocation={currentLocation}
+                                    onCurrentLocationChange={this.onCurrentLocationChange} />
                             </View>
                         </Animated.View>
                     </React.Fragment>

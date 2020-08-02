@@ -13,15 +13,7 @@ export default (props) => {
     }
 
     const currentTime = props.currentTime * 1000;
-    let currentLocation = null
-    const coordinates = props.locations.map(l => {
-        if (currentLocation === null && l.elapsed >= currentTime) {
-            currentLocation = l;
-        }
-        return {
-            latitude: l.lat, longitude: l.lng
-        }
-    })
+    const currentLocation = props.currentLocation;
 
     return (
         <MapView
