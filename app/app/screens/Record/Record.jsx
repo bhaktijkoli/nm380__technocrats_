@@ -157,6 +157,8 @@ class Record extends Component {
                     let name = "GE" + moment().format('YYMMDDHHmmss') + '.mp4';
                     let file = result.uri.replace('file://', '');
                     let dest = directory.path(name);
+                    let locations = this.state.locations;
+                    locations[locations.length - 1].type = 'stop';
                     RNFS.copyFile(file, dest);
                     RNFS.writeFile(dest + ".json", JSON.stringify(this.state.locations));
                     RNFS.unlink(file);
@@ -207,7 +209,8 @@ class Record extends Component {
                                 lng: info.coords.longitude,
                                 speed: info.coords.speed,
                                 heading: info.coords.heading,
-                                elapsed: moment().diff(this.state.startTime, 'seconds') * 1000,
+                                elapsed: this.state.elapsed * 1000,
+                                type: locations.length === 0 ? 'start' : 'point'
                             })
                             this.setState({ locations });
                         },
@@ -226,6 +229,10 @@ class Record extends Component {
             const { cameraPaused } = this.state;
             if (cameraPaused) {
                 this.camera.resumeRecording();
+                let { locations } = this.state;
+                if (locations.length > 0) {
+                    locations[locations.length - 1].type = "pause";
+                }
                 this.setState({ startTime: moment() })
             } else {
                 this.setState({ elapsedAddon: this.state.elapsed })
