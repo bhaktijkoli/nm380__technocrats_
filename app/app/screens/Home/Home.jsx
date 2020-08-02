@@ -13,35 +13,43 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const formats = ['.mp4', '.avi']
-        RNFS.readDir(directory.path(''))
-            .then((results) => {
 
-                results.forEach(result => {
-                    if (!result.isFile()) return;
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+            this.setState({ files: [] });
+            const formats = ['.mp4', '.avi']
+            RNFS.readDir(directory.path(''))
+                .then((results) => {
 
-                    let isSupported = false
+                    results.forEach(result => {
+                        if (!result.isFile()) return;
 
-                    formats.forEach(f => {
-                        if (result.path.endsWith(f)) {
-                            isSupported = true
-                        }
-                    })
+                        let isSupported = false
 
-                    RNFS.exists(result.path + ".json")
-                        .then(exists => {
-                            if (exists) {
-                                MediaMeta.get(result.path).then(meta => {
-                                    let files = this.state.files;
-                                    result.meta = meta;
-                                    files.push(result)
-                                    this.setState({ files })
-                                })
+                        formats.forEach(f => {
+                            if (result.path.endsWith(f)) {
+                                isSupported = true
                             }
                         })
 
+                        RNFS.exists(result.path + ".json")
+                            .then(exists => {
+                                if (exists) {
+                                    MediaMeta.get(result.path).then(meta => {
+                                        let files = this.state.files;
+                                        result.meta = meta;
+                                        files.push(result)
+                                        this.setState({ files })
+                                    })
+                                }
+                            })
+
+                    })
                 })
-            })
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribeFocus();
     }
 
     render() {
