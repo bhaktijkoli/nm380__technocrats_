@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native';
 export default VideoItem = (props) => {
     let item = props.item;
     let onPress = () => {
-        props.navigation.navigate('Play', { videoPath: item.path })
+        props.navigation.navigate('Play', { videoPath: item.path, jsonPath: item.path + ".json" })
     }
     return (
         <TouchableOpacity style={{ width: '100%', borderBottomColor: 'gray', borderBottomWidth: 0.5 }} activeOpacity={0.8} onPress={onPress}>

@@ -4,8 +4,10 @@ import RNVideo from 'react-native-video';
 import SlidingPanel from 'rn-sliding-up-panel';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
+import RNFS from 'react-native-fs';
 import Controls from './Controls';
 import TopControls from './TopControls';
+import MapView from './MapView';
 import { formatElapsed } from '../../utils/formatting';
 
 const { height, width } = Dimensions.get('window');
@@ -128,9 +130,10 @@ class Play extends Component {
             currentTime: 0,
             seekTime: 0,
             duration: 0,
+            locations: [],
         };
-        console.log(this.props.route.params.videoPath)
         this.videoUrl = "file://" + this.props.route.params.videoPath;
+        this.jsonPath = this.props.route.params.jsonPath;
         this.options = {
             playWhenInactive: false,
             playInBackground: false,
@@ -267,14 +270,20 @@ class Play extends Component {
                                 />
                             )}
                             <View style={styles.divider} />
-                            <View style={styles.mapContainer}></View>
+                            <View style={styles.mapContainer}>
+                                <MapView locations={this.state.locations} />
+                            </View>
                         </Animated.View>
                     </React.Fragment>
                 </SlidingPanel>
             </View>
         );
     }
-    // componentDidMount() {}
+    componentDidMount() {
+        RNFS.readFile(this.jsonPath).then(data => {
+            this.setState({ locations: JSON.parse(data) });
+        })
+    }
     // componentWillUnmount() {}
 }
 
