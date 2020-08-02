@@ -25,6 +25,12 @@
 </p>
   
 ## 📦 Technologies Used
+
+- [React Native](https://reactnative.com/)
+- [Next.js](https://nextjs.org/)
+- [MongoDB](https://mongodb.com/)
+- [Node.js](https://nodejs.org/)
+
   
 ## 🌟 Features
   
