@@ -12,10 +12,10 @@ class Splash extends Component {
             await permission.writeStorage();
             await permission.camera();
             await permission.audio();
-            this.props.navigation.navigate('Main');
         } catch {
             alert("Permissions not granted");
         }
+        this.props.navigation.navigate('Login');
     }
     render() {
         return (
