@@ -1,10 +1,11 @@
 import React from 'react';
-import {Dimensions, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {Grid, Row, Col} from 'react-native-easy-grid';
+import { Dimensions, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Grid, Row, Col } from 'react-native-easy-grid';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import colors from './../../styles/colors'
 
 const CONTROL_HEIGHT = 100;
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 function Controls({
     locked = false,
@@ -25,7 +26,7 @@ function Controls({
     seekEnd,
     seeker,
 }) {
-    const containerStyle = {...style};
+    const containerStyle = { ...style };
     if (height !== null) {
         containerStyle.height = height;
     }
@@ -46,7 +47,7 @@ function Controls({
             flex: 1,
         },
         controlItem: {
-            backgroundColor: '#5522ee',
+            backgroundColor: colors.primary,
             borderRadius: 40,
             alignSelf: 'center',
             width: 45,
@@ -68,8 +69,8 @@ function Controls({
             borderColor: '#fff',
         },
     });
-    const onRewind = () => {};
-    const onFastForward = () => {};
+    const onRewind = () => { };
+    const onFastForward = () => { };
     const openOptionsMenu = () => {
         // TODO: Options component
     };
@@ -78,11 +79,11 @@ function Controls({
             <Grid>
                 <Row style={styles.seek}>
                     <Col size={1}>
-                        <Text style={[styles.timerText, {textAlign: 'left'}]}>{elapsed}</Text>
+                        <Text style={[styles.timerText, { textAlign: 'left' }]}>{elapsed}</Text>
                     </Col>
                     <Col size={8}>{seeker}</Col>
                     <Col size={1}>
-                        <Text style={[styles.timerText, {textAlign: 'right'}]}>{remaining}</Text>
+                        <Text style={[styles.timerText, { textAlign: 'right' }]}>{remaining}</Text>
                     </Col>
                 </Row>
                 <Row style={styles.controls}>
@@ -103,7 +104,7 @@ function Controls({
                     <Col>
                         <TouchableOpacity onPress={onPlayPause} delayPressOut={100}>
                             <View style={[styles.controlItem, styles.playBtn]}>
-                                <Icon name={paused ? 'play' : 'pause'} style={[styles.controlIcon, {fontSize: 50}]} />
+                                <Icon name={paused ? 'play' : 'pause'} style={[styles.controlIcon, { fontSize: 50 }]} />
                             </View>
                         </TouchableOpacity>
                     </Col>

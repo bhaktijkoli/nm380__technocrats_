@@ -1,14 +1,14 @@
-import React, {Component, useEffect} from 'react';
-import {View, StyleSheet, Button, Text, Dimensions, PanResponder, Animated} from 'react-native';
+import React, { Component, useEffect } from 'react';
+import { View, StyleSheet, Button, Text, Dimensions, PanResponder, Animated } from 'react-native';
 import RNVideo from 'react-native-video';
 import SlidingPanel from 'rn-sliding-up-panel';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 import Controls from './Controls';
 import TopControls from './TopControls';
-import {formatElapsed} from '../../utils/formatting';
+import { formatElapsed } from '../../utils/formatting';
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 const CONTROLS_HEIGHT = 140; // Includes the sliding bar
 const DRAWER_DEFAULT_TOP = 0.4 * height + CONTROLS_HEIGHT; // Middle snapping
 const SLIDE_TRIGGER_HEIGHT = 12; // Invisible padding to drag
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function Seeker({seeking = false, start = 0, end = 0, value = 0, onSeek, onSeekStart, onSeekEnd}) {
+function Seeker({ seeking = false, start = 0, end = 0, value = 0, onSeek, onSeekStart, onSeekEnd }) {
     const [step, setStep] = React.useState(0);
     useEffect(() => {
         setStep((end - start) / 100);
@@ -129,24 +129,26 @@ class Play extends Component {
             seekTime: 0,
             duration: 0,
         };
-        this.videoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-weeds-waving-in-the-breeze-1178-large.mp4';
+        console.log(this.props.route.params.videoPath)
+        this.videoUrl = "file://" + this.props.route.params.videoPath;
         this.options = {
             playWhenInactive: false,
             playInBackground: false,
         };
     }
-    onExport = () => {};
-    onShare = () => {};
-    onOpenInfo = () => {};
-    onDelete = () => {};
-    onToggleDarkMode = () => {};
-    onSeekPlus = () => {};
-    onSeekMinus = () => {};
+
+    onExport = () => { };
+    onShare = () => { };
+    onOpenInfo = () => { };
+    onDelete = () => { };
+    onToggleDarkMode = () => { };
+    onSeekPlus = () => { };
+    onSeekMinus = () => { };
     onPlayPause = () => {
-        this.setState({paused: !this.state.paused});
+        this.setState({ paused: !this.state.paused });
     };
-    onLockControls = () => {};
-    onToggleOptions = () => {};
+    onLockControls = () => { };
+    onToggleOptions = () => { };
     onLoadStart = () => {
         if (!this.state.loading)
             this.setState({
@@ -166,15 +168,15 @@ class Play extends Component {
         });
     };
     onSeekStart = () => {
-        this.setState({seeking: true, paused: true});
+        this.setState({ seeking: true, paused: true });
     };
     onSeekEnd = (v) => {
         this.player.seek(v, 250);
     };
-    seekTo = (v) => {};
+    seekTo = (v) => { };
     onSeekComplete = (data = {}) => {
-        this.setState({paused: false, currentTime: data.currentTime}, () => {
-            this.setState({seeking: false});
+        this.setState({ paused: false, currentTime: data.currentTime }, () => {
+            this.setState({ seeking: false });
         });
     };
     render() {
@@ -185,7 +187,7 @@ class Play extends Component {
 
         return (
             <View style={styles.container}>
-                <Animated.View style={[styles.videoContainer, {height: this.videoHeight}]}>
+                <Animated.View style={[styles.videoContainer, { height: this.videoHeight }]}>
                     <View style={styles.playerContainer}>
                         <RNVideo
                             ref={(ref) => (this.player = ref)}
@@ -220,10 +222,10 @@ class Play extends Component {
                     {/* <VideoPlayer source={{uri: this.state.videoUrl}} navigator={this.props.navigator} /> */}
                 </Animated.View>
                 <SlidingPanel
-                    containerStyle={{backgroundColor: '#000'}}
-                    backdropStyle={{backgroundColor: 'transparent'}}
+                    containerStyle={{ backgroundColor: '#000' }}
+                    backdropStyle={{ backgroundColor: 'transparent' }}
                     ref={(c) => (this.slidePanel = c)}
-                    draggableRange={{top, bottom}}
+                    draggableRange={{ top, bottom }}
                     snappingPoints={[DRAWER_DEFAULT_BOTTOM, CONTROLS_HEIGHT]}
                     animatedValue={this._draggedPanelValue}
                     height={height + CONTROLS_HEIGHT + SLIDE_TRIGGER_HEIGHT}
@@ -233,7 +235,7 @@ class Play extends Component {
                     <React.Fragment>
                         <View style={styles.slidingPanelTop} />
                         <Animated.View style={styles.slidingPanel}>
-                            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                                 <View style={styles.dragBox} />
                             </View>
                             {/* TODO: External Controls */}
