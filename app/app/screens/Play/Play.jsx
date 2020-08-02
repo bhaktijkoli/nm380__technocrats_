@@ -183,9 +183,10 @@ class Play extends Component {
         });
     };
     onCurrentLocationChange = (time) => {
-        this.setState({ seeking: false, currentTime: time }, () => {
-            this.setState({ seeking: false })
-        });
+        this.player.seek(time);
+        // this.setState({ seeking: true, paused: true, currentTime: time }, () => {
+        //     // this.setState({ seeking: false, paused: false })
+        // });
     }
     render() {
         const top = DRAWER_DEFAULT_TOP;
