@@ -154,8 +154,9 @@ class Record extends Component {
                 if (result) {
                     let file = result.uri.replace('file://', '');
                     let dest = directory.path("GE" + moment().format('YYMMDDHHmmss') + '.mp4');
-                    RNFS.copyFile(file, dest)
-                    RNFS.writeFile(dest + ".json", JSON.stringify(this.state.locations))
+                    RNFS.copyFile(file, dest);
+                    RNFS.writeFile(dest + ".json", JSON.stringify(this.state.locations));
+                    RNFS.unlink(file);
                     Alert.alert('Video recorded', JSON.stringify(result));
                 }
                 setTimeout(() => {
