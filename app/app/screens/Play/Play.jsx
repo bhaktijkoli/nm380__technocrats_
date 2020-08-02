@@ -225,17 +225,14 @@ class Play extends Component {
                             onSeek={this.onSeekComplete}
                         />
                     </View>
-                    <View style={styles.topOptions}>
-                        <TopControls
-                            onExport={this.onExport}
-                            onShare={this.onShare}
-                            onOpenInfo={this.onOpenInfo}
-                            onDelete={this.onDelete}
-                            onToggleDarkMode={this.onToggleDarkMode}
-                            speed={`${speed.toFixed(2)} km/h`}
-                        />
-                    </View>
-                    {/* <VideoPlayer source={{uri: this.state.videoUrl}} navigator={this.props.navigator} /> */}
+                    <TopControls
+                        onExport={this.onExport}
+                        onShare={this.onShare}
+                        onOpenInfo={this.onOpenInfo}
+                        onDelete={this.onDelete}
+                        onToggleDarkMode={this.onToggleDarkMode}
+                        speed={`${speed.toFixed(0)} km/h`}
+                    />
                 </Animated.View>
                 <SlidingPanel
                     containerStyle={{ backgroundColor: '#000' }}

@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Grid, Row, Col} from 'react-native-easy-grid';
+import { Grid, Row, Col } from 'react-native-easy-grid';
 
 const styles = StyleSheet.create({
     buttonStyle: {
@@ -14,6 +14,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
+        marginRight: 10,
+        marginBottom: 10,
     },
     iconStyle: {
         fontSize: 26,
@@ -30,6 +32,7 @@ const styles = StyleSheet.create({
     },
     speedIndicator: {
         marginLeft: 20,
+        paddingRight: 10,
         backgroundColor: '#1f1f1f',
         height: 40,
         borderTopLeftRadius: 40,
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const IconButton = ({onPress, iconName = '', buttonStyle = {}, iconStyle = {}}) => {
+const IconButton = ({ onPress, iconName = '', buttonStyle = {}, iconStyle = {} }) => {
     return (
         <TouchableOpacity style={[styles.buttonStyle, buttonStyle]} onPress={onPress}>
             <Icon name={iconName} style={[styles.iconStyle, iconStyle]} />
@@ -59,39 +62,24 @@ const IconButton = ({onPress, iconName = '', buttonStyle = {}, iconStyle = {}}) 
     );
 };
 
-const TopControls = ({style, speed = '0 km/h', onExport, onShare, onOpenInfo, onDelete, onToggleDarkMode}) => {
+const TopControls = ({ style, speed = '0 km/h', onExport, onShare, onOpenInfo, onDelete, onToggleDarkMode }) => {
     return (
-        <View style={[{flex: 1}, style]}>
-            <Grid style={styles.gridStyle}>
-                <Row>
-                    <Col size={4} style={styles.leftIcons}>
-                        <Row>
-                            <Col>
-                                <IconButton onPress={onExport} iconName="export" iconStyle={{marginLeft: 4}} />
-                            </Col>
-                            <Col>
-                                <IconButton onPress={onShare} iconName="share" iconStyle={{marginBottom: 4}} />
-                            </Col>
-                            <Col>
-                                <IconButton onPress={onOpenInfo} iconName="information-outline" iconStyle={{fontSize: 28}} />
-                            </Col>
-                            <Col>
-                                <IconButton onPress={onDelete} iconName="delete" />
-                            </Col>
-                            <Col>
-                                <IconButton onPress={onToggleDarkMode} iconName="white-balance-sunny" />
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col size={2} style={styles.rightIcons}>
-                        <View style={styles.speedIndicator}>
-                            <Icon style={[styles.speedIcon, {marginBottom: 2}]} name="speedometer-slow" />
-                            <Text style={styles.speedText}>{speed}</Text>
-                        </View>
-                    </Col>
-                </Row>
-            </Grid>
-        </View>
+        <React.Fragment>
+            <View style={{ position: 'absolute', top: 10, right: 0 }}>
+                <View style={{ width: '100%' }}>
+                    <IconButton onPress={onExport} iconName="export" iconStyle={{ marginLeft: 4 }} />
+                    <IconButton onPress={onShare} iconName="share" iconStyle={{ marginBottom: 4 }} />
+                    <IconButton onPress={onOpenInfo} iconName="information-outline" iconStyle={{ fontSize: 28 }} />
+                    <IconButton onPress={onDelete} iconName="delete" />
+                </View>
+            </View>
+            <View style={{ position: 'absolute', bottom: 20, right: 0 }}>
+                <View style={styles.speedIndicator}>
+                    <Icon style={[styles.speedIcon, { marginBottom: 2 }]} name="speedometer-slow" />
+                    <Text style={styles.speedText}>{speed}</Text>
+                </View>
+            </View>
+        </React.Fragment>
     );
 };
 

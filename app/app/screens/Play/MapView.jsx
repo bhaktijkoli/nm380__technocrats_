@@ -47,24 +47,24 @@ export default (props) => {
             }
 
             {/* {Start Marker} */}
-            <Marker
+            {/* <Marker
                 title="Start"
                 pinColor="blue"
                 coordinate={{
                     latitude: locations[0].lat,
                     longitude: locations[0].lng
                 }}
-            />
+            /> */}
 
             {/* {Stop Marker} */}
-            <Marker
+            {/* <Marker
                 title="Stop"
                 pinColor="green"
                 coordinate={{
                     latitude: locations[locations.length - 1].lat,
                     longitude: locations[locations.length - 1].lng
                 }}
-            />
+            /> */}
 
             {/* Lines */}
             {
