@@ -72,12 +72,14 @@ class Record extends Component {
             cameraIds: null,
             cameraType: CAMERA_BACK,
             cameraId: null,
+            cameraPaused: false,
             aspectRatioStr: '4:3',
             aspectRatio: parseRatio('4:3'),
             recording: false,
             capturing: false,
             flashMode: 'off',
             elapsed: 0,
+            elapsedAddon: 0,
             startTime: null,
             locations: [],
         };
@@ -185,55 +187,56 @@ class Record extends Component {
             }, 1000);
         }
     };
-    pauseVideo = () => {
-        if (this.camera && this.state.recording) {
-            const { cameraPaused } = this.state;
-            this.setState({ cameraPaused: !cameraPaused }, async () => {
-                console.log(cameraPaused);
-                if (cameraPaused) {
-                    console.log('Resuming');
-                    this.camera.resumePreview();
-                    this.pauseTimer();
-                } else {
-                    console.log('Pausing');
-                    this.camera.pausePreview();
-                }
-            });
-        }
-    };
-    stopVideo = () => {
-        if (this.camera && this.state.recording) {
-            this.camera.stopRecording();
-        }
-    };
     onRecordingStart = () => {
         this.reportRequestPrompt = true;
         this.resetRecordingTimer();
         if (this.state.recording) {
             this.setState({ elapsed: 0, startTime: moment(), locations: [] });
             this._recordingTimer = BackgroundTimer.setInterval(() => {
-                this.setState({ elapsed: moment().diff(this.state.startTime, 'seconds') });
 
-                Geolocation.getCurrentPosition(
-                    info => {
-                        let { locations } = this.state
-                        locations.push({
-                            alt: info.coords.altitude,
-                            lat: info.coords.latitude,
-                            lng: info.coords.longitude,
-                            speed: info.coords.speed,
-                            heading: info.coords.heading,
-                            elapsed: moment().diff(this.state.startTime, 'seconds') * 1000,
-                        })
-                        this.setState({ locations });
-                    },
-                    error => {
-                        console.log(error)
-                    },
-                    { enableHighAccuracy: true }
-                );
+                if (this.state.cameraPaused === false) {
+
+                    this.setState({ elapsed: moment().diff(this.state.startTime, 'seconds') + this.state.elapsedAddon });
+
+                    Geolocation.getCurrentPosition(
+                        info => {
+                            let { locations } = this.state
+                            locations.push({
+                                alt: info.coords.altitude,
+                                lat: info.coords.latitude,
+                                lng: info.coords.longitude,
+                                speed: info.coords.speed,
+                                heading: info.coords.heading,
+                                elapsed: moment().diff(this.state.startTime, 'seconds') * 1000,
+                            })
+                            this.setState({ locations });
+                        },
+                        error => {
+                            console.log(error)
+                        },
+                        { enableHighAccuracy: true }
+                    );
+                }
 
             }, 1000);
+        }
+    };
+    pauseVideo = () => {
+        if (this.camera && this.state.recording) {
+            const { cameraPaused } = this.state;
+            if (cameraPaused) {
+                this.camera.resumeRecording();
+                this.setState({ startTime: moment() })
+            } else {
+                this.setState({ elapsedAddon: this.state.elapsed })
+                this.camera.pauseRecording();
+            }
+            this.setState({ cameraPaused: !cameraPaused });
+        }
+    };
+    stopVideo = () => {
+        if (this.camera && this.state.recording) {
+            this.camera.stopRecording();
         }
     };
     onRecordingEnd = () => {
@@ -247,7 +250,7 @@ class Record extends Component {
     handlePauseRecording = () => {
         // TODO: Add location pause in this method
         // TODO: Work on pause methods
-        // this.pauseVideo();
+        this.pauseVideo();
     };
     handleStopRecording = () => {
         // TODO: Add location stop in this method
@@ -296,7 +299,11 @@ class Record extends Component {
                     }
                     notAuthorizedView={<View>{CameraNoPermissions}</View>}>
                     <SideControls onFlashToggle={this.handleFlash} {...this.state} />
-                    <MainControls onStartRecord={this.handleStartRecording} onStopRecord={this.handleStopRecording} {...this.state} />
+                    <MainControls
+                        onStartRecord={this.handleStartRecording}
+                        onStopRecord={this.handleStopRecording}
+                        onPauseRecord={this.handlePauseRecording}
+                        {...this.state} />
 
                 </RNCamera>
             </View>

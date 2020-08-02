@@ -45,7 +45,6 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.state.files)
         return (
             <React.Fragment >
                 <Toolbar />

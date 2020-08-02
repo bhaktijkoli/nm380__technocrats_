@@ -79,6 +79,10 @@ export default MainControls = (props) => {
         }
     }
 
+    let onPressPause = () => {
+        props.onPauseRecord();
+    }
+
     return (
         <View style={styles.controlsContainer}>
             {
@@ -86,9 +90,15 @@ export default MainControls = (props) => {
             }
             <Animatable.View ref={controlsRef} style={styles.controls}>
                 <Col style={[styles.center]}>
-                    <View style={styles.button}>
-
-                    </View>
+                    {
+                        props.recording === true ?
+                            <TouchableOpacity style={[styles.button, { backgroundColor: '#9696966b' }]} onPress={onPressPause}>
+                                <Icon name={props.cameraPaused === true ? "play" : "pause"} size={32} color="#FFF" />
+                            </TouchableOpacity>
+                            :
+                            <View style={styles.button}>
+                            </View>
+                    }
                 </Col>
                 <Col style={styles.center}>
                     <TouchableOpacity style={styles.record} activeOpacity={0.8} onPress={onPressRecord}>
