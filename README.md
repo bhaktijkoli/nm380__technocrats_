@@ -7,7 +7,7 @@
   <br>
   <a href="https://github.com/bhaktijkoli/">Bhaktij Koli</a>
   <br>
-  <a href="https://github.com/frozen4code/">Bhupinder Singh</a>
+  <a href="https://github.com/localhoax/">Bhupender Singh</a>
   <br>
   <a href="https://github.com/RohitJere/">Rohit Jere</a>
   <br>
@@ -20,7 +20,7 @@
   <br>
   <b> Mentors: </b>
   <br>
-  <a href="https://github.com/gyr0tron/">Simmar Khalsi</a>
+  <a href="https://github.com/gyr0tron/">Simmar Kalsi</a>
   <br>
   <a href="https://github.com/way2mandar/">Mandar Ganjapurkar</a>
   <br>  
