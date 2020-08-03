@@ -1,5 +1,6 @@
 const passport = require('passport');
 const User = require('../models/user');
+require('./strategies')(passport);
 
 passport.serializeUser(function (user, next) {
     next(null, user._id);

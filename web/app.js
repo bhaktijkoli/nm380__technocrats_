@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const compression = require('compression');
 const logger = require('morgan');
+const cors = require('cors');
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -15,15 +16,18 @@ const Account = require('./models/account');
 const Session = require('./models/session');
 const VerificationRequest = require('./models/verification-request');
 
-const {port, isDev, sessionSecret, sessionMaxAge} = config;
+const {port, host, isDev, sessionSecret, sessionMaxAge} = config;
 
 const nextApp = next({dev: isDev});
 const handle = nextApp.getRequestHandler();
 
 nextApp
-    .prepare()
+    .prepare({debug: true})
     .then(() => {
         const app = express();
+        cors({origin: '*', methods: ['GET', 'POST', 'PUT']});
+        app.use(express.json());
+        app.use(express.urlencoded({extended: false}));
         app.use(logger('dev'));
         app.use(helmet());
         app.use(compression());
@@ -40,19 +44,20 @@ nextApp
                         saveUninitialized: true,
                     }),
                 );
+                app.use('/api/videos', require('./routes/videos')(connection));
             })
             .catch((error) => {
                 console.error('MongoDB Error: ', error);
             });
 
         // TODO: API routes & controllers
-
+        app.use('/api/user', require('./routes/users'));
         app.all('*', (req, res) => handle(req, res));
         const server = http.createServer(app);
 
-        server.listen(port, (err) => {
+        server.listen(port, host, (err) => {
             if (err) throw err;
-            console.log('Server running on http://localhost:' + port);
+            console.log('Server running on http://' + host + ':' + port);
         });
     })
     .catch((ex) => {

@@ -6,8 +6,8 @@ const getUri = (c) => {
     return '';
 };
 
+let connection = null;
 module.exports = () => {
-    let connection = null;
     getConnection = () => {
         return connection;
     };
