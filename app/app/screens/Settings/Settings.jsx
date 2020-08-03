@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   headerText: {
     alignSelf: "center",
     marginVertical: 10,
-    fontSize: 36
+    fontSize: 34
   },
   custView: {
     flexDirection: 'row',
