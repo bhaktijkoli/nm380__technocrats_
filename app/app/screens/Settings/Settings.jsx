@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TextInput, Switch, FlatList, SafeAreaView, Button, Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput, Switch, FlatList, Button, Alert } from "react-native";
 
 const Settings = () => {
   const [value, onChangeText] = React.useState('Default is 0');
