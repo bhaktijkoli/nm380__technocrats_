@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { View, Image } from 'react-native';
+import LottieView from 'lottie-react-native';
 import permission from './../../utils/permission';
-
-const logo = require('./../../assets/logo.png');
 
 class Splash extends Component {
     async componentDidMount() {
@@ -15,12 +14,16 @@ class Splash extends Component {
         } catch {
             alert("Permissions not granted");
         }
-        this.props.navigation.navigate('Login');
+        setTimeout(() => {
+            this.props.navigation.navigate('Main');
+        }, 3000)
     }
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={logo} style={{ height: 128, width: 128 }} />
+                <View style={{ margin: 20, height: 174, width: 174 }}>
+                    <LottieView source={require('./../../assets/logo.json')} autoPlay loop />
+                </View>
             </View>
         )
     }
