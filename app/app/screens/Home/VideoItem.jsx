@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import formatting from './../../utils/formatting';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import OptionsMenu from "react-native-options-menu";
-import { requestNotifications } from 'react-native-permissions';
+import file from './../../utils/file';
+import colors from './../../styles/colors';
 
 
 export default VideoItem = (props) => {
     let item = props.item;
+
+    // Play Screen
     let onPress = () => {
         props.navigation.navigate('Play', { videoPath: item.path, jsonPath: item.path + ".json" })
     }
+
+    // Upload Video
+    let [progress, setProgress] = useState({
+        uploading: false,
+        done: 0,
+    });
     let onUpload = () => {
-        console.log(`${item.name} uploading`)
+        file.uploadVideo(item.name, item.path, item.name, item.path + ".json",
+            () => {
+                setProgress({ uploading: true, done: 0 })
+            },
+            (done) => {
+                setProgress({ uploading: true, done })
+            })
     }
+
+    // XML Export
     let onExportXML = () => {
     }
     let onAlert = () => {
@@ -36,6 +53,19 @@ export default VideoItem = (props) => {
                     options={["Upload", "Share", "Export to KML", "Delete"]}
                     actions={[onUpload, onAlert, onExportXML, onAlert]} />
             </View>
+            <ProgressBar progress={progress} />
         </TouchableOpacity>
+    )
+}
+
+
+const ProgressBar = ({ progress }) => {
+    if (progress.uploading === false) return null;
+    return (
+        <View style={{ width: '100%', paddingHorizontal: 12, marginTop: -5, marginBottom: 5 }}>
+            <View style={{ width: `${progress.done}%`, backgroundColor: colors.success, height: 3 }}>
+
+            </View>
+        </View>
     )
 }

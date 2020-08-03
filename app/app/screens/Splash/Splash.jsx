@@ -27,7 +27,7 @@ class Splash extends Component {
             );
             if (data && data.user) {
                 this.context.setStore({ user: data.user });
-                this.props.navigation.navigate('Main');
+                this.props.navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
             }
         } catch (error) {
             console.error(error);
