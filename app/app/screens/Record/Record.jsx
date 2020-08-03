@@ -83,8 +83,7 @@ class Record extends Component {
             startTime: null,
             locations: [],
         };
-    }
-    componentDidMount() {
+        this._mocked = null;
     }
     componentWillUnmount() {
         this.stopVideo();
@@ -198,10 +197,14 @@ class Record extends Component {
 
                 if (this.state.cameraPaused === false) {
 
+
                     this.setState({ elapsed: moment().diff(this.state.startTime, 'seconds') + this.state.elapsedAddon });
 
                     Geolocation.getCurrentPosition(
                         info => {
+                            // if (info.mocked === false) {
+                            //     info.coords = this.state.locations[this.state.locations.length - 1];
+                            // }
                             let { locations } = this.state
                             locations.push({
                                 alt: info.coords.altitude,
