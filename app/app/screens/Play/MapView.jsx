@@ -70,6 +70,10 @@ export default (props) => {
             {
                 locations.map((location, key) => {
                     if (key === locations.length - 1) return null;
+                    if (location.type === 'pause') return null;
+                    if (key > 1) {
+                        if (locations[key - 1].type === 'pause') return null
+                    }
                     return (
                         <Polyline
                             coordinates={[
