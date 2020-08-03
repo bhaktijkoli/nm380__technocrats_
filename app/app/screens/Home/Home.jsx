@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
+import { StoreContext } from './../../store/store';
 import { Toolbar } from '../../components';
 import Fab from './Fab';
 import RNFS from 'react-native-fs';
@@ -7,11 +8,16 @@ import directory from './../../utils/directory';
 import VideoItem from './VideoItem';
 
 class Home extends Component {
+
+    static contextType = StoreContext
+
     state = {
         files: [],
     }
 
     componentDidMount() {
+
+        console.log(this.context.store.user)
 
         this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
             this.setState({ files: [] });
@@ -33,9 +39,14 @@ class Home extends Component {
                         RNFS.exists(result.path + ".json")
                             .then(exists => {
                                 if (exists) {
-                                    let files = this.state.files;
-                                    files.push(result)
-                                    this.setState({ files })
+                                    RNFS.readFile(result.path + ".json")
+                                        .then(data => {
+                                            let files = this.state.files;
+                                            let locations = JSON.parse(data);
+                                            result.duration = locations[locations.length - 1].elapsed;
+                                            files.push(result)
+                                            this.setState({ files })
+                                        })
                                 }
                             })
 

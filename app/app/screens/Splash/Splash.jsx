@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {View, Image} from 'react-native';
-// import LottieView from 'lottie-react-native';
+import React, { Component } from 'react';
+import { View, Image } from 'react-native';
+import LottieView from 'lottie-react-native';
 import permission from './../../utils/permission';
+import { StoreContext } from './../../store/store';
 import axios from 'axios';
 
 const api = axios.create({
@@ -9,12 +10,12 @@ const api = axios.create({
 });
 
 class Splash extends Component {
-    state = {
-        user: null,
-    };
+
+    static contextType = StoreContext
+
     refreshUser = async () => {
         try {
-            let {data} = await api.post(
+            let { data } = await api.post(
                 '/user/refresh',
                 {},
                 {
@@ -25,8 +26,8 @@ class Splash extends Component {
                 },
             );
             if (data && data.user) {
-                console.log(data);
-                this.setState({user: data.user});
+                this.context.setStore({ user: data.user });
+                this.props.navigation.navigate('Main');
             }
         } catch (error) {
             console.error(error);
@@ -43,15 +44,12 @@ class Splash extends Component {
         } catch {
             alert('Permissions not granted');
         }
-        setTimeout(() => {
-            this.props.navigation.navigate('Main');
-        }, 3000);
     }
     render() {
         return (
-            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                <View style={{margin: 20, height: 174, width: 174}}>
-                    {/* <LottieView source={require('./../../assets/logo.json')} autoPlay loop /> */}
+            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ margin: 20, height: 174, width: 174 }}>
+                    <LottieView source={require('./../../assets/logo.json')} autoPlay loop />
                 </View>
             </View>
         );

@@ -12,7 +12,6 @@ export default (props) => {
 
     }
 
-    const currentTime = props.currentTime * 1000;
     const currentLocation = props.currentLocation;
 
     return (
