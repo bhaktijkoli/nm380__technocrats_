@@ -1,4 +1,6 @@
 import xml2js from 'react-native-xml2js'
+import RNFS from 'react-native-fs';
+import { Alert } from "react-native";
 
 const formatPlacemark = (name, lat, lng, alt) => {
     return {
@@ -46,7 +48,28 @@ const formatPlacemark = (name, lat, lng, alt) => {
     }
 }
 
-module.exports.kmlDocument = (locations) => {
+module.exports.saveKml = (name, jsonPath) => {
+    RNFS.readFile(jsonPath).then(data => {
+        let locations = JSON.parse(data);
+        let path = jsonPath.replace('.json', '') + '.kml';
+        RNFS.writeFile(path, module.exports.kmlDocument(name, locations))
+            .then(() => {
+                Alert.alert(
+                    'KML Exported',
+                    `KML file has been saved as ${path}`,
+                    [
+                        { text: 'OK' }
+                    ],
+                    { cancelable: false }
+                );
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    })
+}
+
+module.exports.kmlDocument = (name, locations) => {
 
     let placemarks = [];
 
@@ -65,7 +88,7 @@ module.exports.kmlDocument = (locations) => {
             "Document": [
                 {
                     "name": [
-                        "Test"
+                        name
                     ],
                     "Placemark": [
                         placemarks,

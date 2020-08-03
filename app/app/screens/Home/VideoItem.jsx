@@ -4,6 +4,7 @@ import formatting from './../../utils/formatting';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import OptionsMenu from "react-native-options-menu";
 import file from './../../utils/file';
+import kml from './../../utils/kml';
 import colors from './../../styles/colors';
 
 
@@ -32,6 +33,7 @@ export default VideoItem = (props) => {
 
     // XML Export
     let onExportXML = () => {
+        kml.saveKml(item.name, item.path + '.json');
     }
     let onAlert = () => {
         alert("Coming soon");

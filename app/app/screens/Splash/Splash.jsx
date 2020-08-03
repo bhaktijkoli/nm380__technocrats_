@@ -40,7 +40,10 @@ class Splash extends Component {
             await permission.writeStorage();
             await permission.camera();
             await permission.audio();
-            await this.refreshUser();
+            // await this.refreshUser();
+            setTimeout(() => {
+                this.props.navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+            }, 3000)
         } catch {
             alert('Permissions not granted');
         }
