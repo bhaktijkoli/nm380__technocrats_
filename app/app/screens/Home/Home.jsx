@@ -3,7 +3,6 @@ import { FlatList } from 'react-native';
 import { Toolbar } from '../../components';
 import Fab from './Fab';
 import RNFS from 'react-native-fs';
-import MediaMeta from "rn-media-meta";
 import directory from './../../utils/directory';
 import VideoItem from './VideoItem';
 
@@ -34,12 +33,9 @@ class Home extends Component {
                         RNFS.exists(result.path + ".json")
                             .then(exists => {
                                 if (exists) {
-                                    MediaMeta.get(result.path).then(meta => {
-                                        let files = this.state.files;
-                                        result.meta = meta;
-                                        files.push(result)
-                                        this.setState({ files })
-                                    })
+                                    let files = this.state.files;
+                                    files.push(result)
+                                    this.setState({ files })
                                 }
                             })
 

@@ -39,7 +39,6 @@
     "react-native-video": "^4.4.5",
     "react-native-webview": "^10.3.3",
     "react-native-xml2js": "^1.0.3",
-    "rn-media-meta": "^0.0.11",
     "rn-sliding-up-panel": "^2.4.3",
     "underscore": "^1.10.2"
   },
