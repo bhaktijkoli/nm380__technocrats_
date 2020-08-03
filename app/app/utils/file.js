@@ -1,4 +1,5 @@
 import RNFS from 'react-native-fs';
+import { Alert } from "react-native";
 
 module.exports.uploadVideo = (videoName, videoPath, jsonName, jsonPath, callBegin, callProgress) => {
     var uploadUrl = 'https://technocrats.localhoax.in/api/videos/upload';
@@ -34,8 +35,7 @@ module.exports.uploadVideo = (videoName, videoPath, jsonName, jsonPath, callBegi
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI3YmI3NjllNDgwMTFjMjRhNWIyMzgiLCJlbWFpbCI6ImxvY2FsaG9heEBnbWFpbC5jb20iLCJpYXQiOjE1OTY0Mzk0MzEsImV4cCI6MjIwMTIzOTQzMX0.OYS3Rz9QnGl0J_DMHPzwyinnp5DMXg67wuyKmX8lCuM',
-
+            'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI3ZTM3NTgyMzViYzNiMDQ4M2IwOTUiLCJlbWFpbCI6ImxvY2FsaG9heEBnbWFpbC5jb20iLCJpYXQiOjE1OTY0NDk2NTQsImV4cCI6MjIwMTI0OTY1NH0.wJlFMj5-OirKMg4r4Pbheo2tm3oWY1RexVSghqkKzwo'
         },
         fields: {
             'hello': 'world',
@@ -44,14 +44,35 @@ module.exports.uploadVideo = (videoName, videoPath, jsonName, jsonPath, callBegi
         progress: uploadProgress
     }).promise.then((response) => {
         if (response.statusCode == 200) {
-            console.log('FILES UPLOADED!');
+            Alert.alert(
+                'Upload Successfull',
+                '',
+                [
+                    { text: 'OK' }
+                ],
+                { cancelable: false }
+            );
         } else {
-            console.log('SERVER ERROR');
+            Alert.alert(
+                'Upload Failed',
+                '',
+                [
+                    { text: 'OK' }
+                ],
+                { cancelable: false }
+            );
         }
     })
         .catch((err) => {
             if (err.description === "cancelled") {
             }
-            console.log(err);
+            Alert.alert(
+                'Upload Failed',
+                'Server was not found',
+                [
+                    { text: 'OK' }
+                ],
+                { cancelable: false }
+            );
         });
 }

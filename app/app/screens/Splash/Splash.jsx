@@ -20,8 +20,7 @@ class Splash extends Component {
                 {},
                 {
                     headers: {
-                        Authorization:
-                            'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI3YmI3NjllNDgwMTFjMjRhNWIyMzgiLCJlbWFpbCI6ImxvY2FsaG9heEBnbWFpbC5jb20iLCJpYXQiOjE1OTY0Mzk0MzEsImV4cCI6MjIwMTIzOTQzMX0.OYS3Rz9QnGl0J_DMHPzwyinnp5DMXg67wuyKmX8lCuM',
+                        Authorization: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI3ZTM3NTgyMzViYzNiMDQ4M2IwOTUiLCJlbWFpbCI6ImxvY2FsaG9heEBnbWFpbC5jb20iLCJpYXQiOjE1OTY0NDk2NTQsImV4cCI6MjIwMTI0OTY1NH0.wJlFMj5-OirKMg4r4Pbheo2tm3oWY1RexVSghqkKzwo'
                     },
                 },
             );
