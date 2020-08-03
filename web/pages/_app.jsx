@@ -1,6 +1,6 @@
 import React from 'react';
 import App from 'next/app';
-import {Provider as NextAuthProvider} from 'next-auth/client';
+// import {Provider as NextAuthProvider} from 'next-auth/client';
 import {ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../styles/theme';
@@ -44,9 +44,9 @@ class MyApp extends App {
                 <Head>
                     <title>_Technocrats_ - Online Viewer</title>
                 </Head>
-                <NextAuthProvider session={pageProps.session}>
+                {/* <NextAuthProvider session={pageProps.session}> */}
                     <Component {...props} />
-                </NextAuthProvider>
+                {/* </NextAuthProvider> */}
             </ThemeProvider>
         );
     }

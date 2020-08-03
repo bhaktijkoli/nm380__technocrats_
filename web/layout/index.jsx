@@ -22,7 +22,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import clsx from 'clsx';
 import NextLink from 'next/link';
-import {useSession} from 'next-auth/client';
+// import {useSession} from 'next-auth/client';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -100,61 +100,12 @@ const useStyles = makeStyles((theme) => ({
 function Layout({children, ...props}) {
     const classes = useStyles();
     const theme = useTheme();
-    const [session, loading] = useSession();
-    console.log(session, loading);
+    // const [session, loading] = useSession();
+    // console.log(session, loading);
     const [open, setOpen] = useState(false);
     const menuId = 'profile-menu';
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
-    };
-    const ProfileOrLogin = () => {
-        const [anchorEl, setAnchorEl] = useState(null);
-        const handleProfileMenuOpen = (event) => {
-            setAnchorEl(event.currentTarget);
-        };
-        const handleMenuClose = () => {
-            setAnchorEl(null);
-        };
-        const isMenuOpen = Boolean(anchorEl);
-        if (session)
-            return (
-                <>
-                    {session.user && (
-                        <>
-                            <IconButton
-                                edge="end"
-                                aria-label="Current user account"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit">
-                                {session.user && <Avatar alt={session.user.name} src={session.user.image} />}
-                            </IconButton>
-                            <Menu
-                                anchorEl={anchorEl}
-                                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                                id={menuId}
-                                keepMounted
-                                transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                                open={isMenuOpen}
-                                onClose={handleMenuClose}>
-                                <MenuItem>
-                                    {/* Next Auth Signout */}
-                                    <NextLink href="/api/auth/signout">
-                                        <a>Logout</a>
-                                    </NextLink>
-                                </MenuItem>
-                            </Menu>
-                        </>
-                    )}
-                </>
-            );
-        return (
-            <NextLink passHref href="/api/auth/signin">
-                {/* Next Auth Login */}
-                <Button color="inherit">Login</Button>
-            </NextLink>
-        );
     };
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -185,7 +136,6 @@ function Layout({children, ...props}) {
                             _Technocrats_
                         </Typography>
                         <div className={classes.grow} />
-                        {loading ? <CircularProgress /> : <ProfileOrLogin />}
                     </Toolbar>
                 </AppBar>
                 <Drawer

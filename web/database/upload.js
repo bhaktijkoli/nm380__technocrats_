@@ -40,12 +40,14 @@ class Bucket {
                         gfs: gfs,
                         db: connection,
                         file: (req, file) => {
+                            console.log(req.object);
                             return new Promise((resolve, reject) => {
                                 const filename = dashIt(file.originalname);
                                 const fileInfo = {
                                     filename,
                                     bucketName,
                                 };
+                                console.log(file);
                                 // Add meta-data & json file
                                 return resolve(fileInfo);
                             });
@@ -55,12 +57,14 @@ class Bucket {
                         storage,
                         // limits: {fileSize: 50 * 1024 * 1024},
                         fileFilter: (req, file, cb) => {
-                            // TODO: File validation
                             cb(null, true);
                         },
                     });
-                    const singleUpload = upload.single('video');
-                    const multiUpload = upload.array('videos', 5);
+                    const singleUpload = upload.fields([
+                        {name: 'video', maxCount: 1},
+                        {name: 'geotag', maxCount: 1},
+                    ]);
+                    const multiUpload = upload.array('videos', 10);
                     this.storage = storage;
                     this.upload = upload;
                     this.singleUpload = singleUpload;
